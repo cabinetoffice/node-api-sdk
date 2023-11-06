@@ -156,7 +156,7 @@ import { ApiResponse, ApiErrorResponse } from "../response";
 
 export class Github {
     constructor (private readonly request: HttpRequest) { /**/ }
-    public async getRrepos (url: string): Promise<ApiResponse<T> | ApiErrorResponse> { /**/ }
+    public async getRepos (url: string): Promise<ApiResponse<T> | ApiErrorResponse> { /**/ }
     public async getMembers (url: string): Promise<ApiResponse<T> | ApiErrorResponse> { /**/ }
     public async getTeams (url: string): Promise<ApiResponse<T> | ApiErrorResponse> {
 
