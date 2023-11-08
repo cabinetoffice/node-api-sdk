@@ -1,5 +1,5 @@
-import { ApiOptions } from "api-client/type";
-import { AdditionalOptions, HttpResponse } from "./type";
+import { ApiOptions } from 'api-client/type';
+import { AdditionalOptions, HttpResponse } from './type';
 import axios, { AxiosRequestConfig } from 'axios';
 
 export class HttpRequest {
@@ -10,16 +10,16 @@ export class HttpRequest {
         return await this.request({ method: 'GET', url, headers });
     }
     public async httpPost(url: string, body?: any, headers?: Headers): Promise<HttpResponse> {
-        /*...*/
+        return await this.request({ method: 'POST', url, body, headers });
     }
     public async httpPatch(url: string, body?: any, headers?: Headers): Promise<HttpResponse> {
-        /*...*/
+        return await this.request({ method: 'PATCH', url, body, headers });
     }
     public async httpPut(url: string, body?: any, headers?: Headers): Promise<HttpResponse> {
-        /*...*/
+        return await this.request({ method: 'PUT', url, body, headers });
     }
     public async httpDelete(url: string): Promise<HttpResponse> {
-        /*...*/
+        return await this.request({ method: 'DELETE', url });
     }
 
     private async request(additionalOptions: AdditionalOptions): Promise<HttpResponse> {
