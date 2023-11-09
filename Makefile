@@ -1,4 +1,4 @@
-.PHONY: clean build security-check lint
+.PHONY: clean build security-check lint test coverage
 
 NODE_VERSION_SUPPORTED := >=20.8.0
 NODE_VERSION=$(shell node -v)
@@ -17,3 +17,9 @@ security-check:
 
 lint:
 	npm run lint
+
+test:
+	npm run test
+
+coverage:
+	npm run coverage
