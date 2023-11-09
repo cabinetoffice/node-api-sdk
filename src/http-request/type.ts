@@ -1,6 +1,6 @@
 type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 
-interface Headers {
+export interface Headers {
     [key: string]: any;
 }
 

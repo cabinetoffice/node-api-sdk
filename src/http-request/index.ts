@@ -1,5 +1,5 @@
 import { ApiOptions } from 'api-client/type';
-import { AdditionalOptions, HttpResponse } from './type';
+import { AdditionalOptions, HttpResponse, Headers } from './type';
 import axios, { AxiosRequestConfig } from 'axios';
 
 export class HttpRequest {
