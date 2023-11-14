@@ -61,15 +61,25 @@ describe('Github sdk module test suites', () => {
     test('Should return team data as an object', async () => {
         httpRequestMock.httpGet.mockResolvedValue(createMockHttpResponse(MOCK_TEAM));
 
-        const url = 'https://api.github.com/users/test/repos';
+        const url = 'https://api.github.com/users/test/teams';
         const result = await github.getTeams(url);
         expect(result).toEqual(MOCK_TEAM_FETCH_RESPONSE);
     });
+
     test('Should return an object with an error property', async () => {
         httpRequestMock.httpGet.mockResolvedValue(createMockHttpResponse(MOCK_TEAM, 500, MOCK_ERROR));
 
         const url = 'https://api.github.com/users/test/repos';
         const result = await github.getTeams(url);
         expect(result).toEqual(MOCK_ERROR_RESPONSE);
+    });
+
+    test('Should ignore an unexpected entree in the object  ', async () => {
+        httpRequestMock.httpGet.mockResolvedValue(createMockHttpResponse({ ...MOCK_REPO, any: 'any' }));
+
+        const url = 'https://api.github.com/users/test/repos';
+        const result = await github.getRepos(url);
+
+        expect(result).toEqual(MOCK_REPO_FETCH_RESPONSE);
     });
 });

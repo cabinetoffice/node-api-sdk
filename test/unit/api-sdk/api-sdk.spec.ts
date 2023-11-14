@@ -12,10 +12,6 @@ describe('api-sdk test suites', () => {
         apiSdk = new ApiSDK(new HttpRequest(MOCK_HEADERS));
     });
 
-    afterEach(() => {
-        jest.restoreAllMocks();
-    });
-
     test('ApiSDK should have a gitHub property which is an instance of Github class', async () => {
         expect(apiSdk.gitHub).toBeInstanceOf(Github);
     });
