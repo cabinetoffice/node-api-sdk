@@ -1,4 +1,5 @@
-import { ApiResponse, ApiErrorResponse, GitHubRepos, GitHubMembers, GitHubTeams } from './response-types';
+import { GitHubRepos, GitHubMembers, GitHubTeams } from './type';
+import { ApiResponse, ApiErrorResponse } from '../response';
 import { reposMapping, membersMapping, teamsMapping } from './mapping';
 import { HttpRequest } from '../../http-request';
 

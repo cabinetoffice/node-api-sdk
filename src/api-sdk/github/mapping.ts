@@ -1,4 +1,4 @@
-import { GitHubMembers, GitHubRepos, GitHubTeams } from './response-types';
+import { GitHubMembers, GitHubRepos, GitHubTeams } from './type';
 
 export const reposMapping = (body: any): GitHubRepos => {
     return {
