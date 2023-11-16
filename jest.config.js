@@ -1,6 +1,7 @@
 module.exports = {
     roots: ['<rootDir>/src', '<rootDir>/test'],
     testPathIgnorePatterns: ['/node_modules/', '/dist/'],
+    coveragePathIgnorePatterns: ['/src/index.ts'],
     collectCoverageFrom: ['./src/**/*.ts'],
     preset: 'ts-jest',
     testEnvironment: 'node',
