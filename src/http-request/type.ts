@@ -1,4 +1,4 @@
-type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
+export type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 
 export interface Headers {
     [key: string]: any;
