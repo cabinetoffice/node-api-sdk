@@ -1,4 +1,4 @@
-# POC Node API SDK Prototype
+# Node API SDK 
 
 This Node.js SDK module is a development tool that simplifies and accelerates the integration of external services or APIs into Node.js applications. It aims to make the developer's life easier by providing a well-documented, customizable, and reliable interface to interact with the external service.
 Allows developers to extend the SDK's behavior through configuration options and callbacks and implements security best practices that protect against common vulnerabilities and threats, especially if handling sensitive data or credentials.
@@ -155,21 +155,34 @@ import { HttpRequest } from "../../http-request";
 import { ApiResponse, ApiErrorResponse } from "../response";
 
 export class Github {
-    constructor (private readonly request: HttpRequest) { /**/ }
-    public async getRepos (url: string): Promise<ApiResponse<T> | ApiErrorResponse> { /**/ }
-    public async getMembers (url: string): Promise<ApiResponse<T> | ApiErrorResponse> { /**/ }
-    public async getTeams (url: string): Promise<ApiResponse<T> | ApiErrorResponse> {
+    constructor(private readonly request: HttpRequest) {
+        /**/
+    }
+    public async getRepos(url: string): Promise<ApiResponse<GitHubRepos> | ApiErrorResponse> {
+        return this.fetchData<GitHubRepos>(url, reposMapping);
+    }
 
+    public async getMembers(url: string): Promise<ApiResponse<GitHubMembers> | ApiErrorResponse> {
+        return this.fetchData<GitHubMembers>(url, membersMapping);
+    }
+
+    public async getTeams(url: string): Promise<ApiResponse<GitHubTeams> | ApiErrorResponse> {
+        return this.fetchData<GitHubTeams>(url, teamsMapping);
+    }
+
+    private async fetchData<T>(
+        url: string,
+        mappingFunction: (body: any) => T
+    ): Promise<ApiResponse<T> | ApiErrorResponse> {
         const response = await this.request.httpGet(url);
-        const resource: ApiResponse<any> & ApiErrorResponse = {
+        const resource: ApiResponse<T> & ApiErrorResponse = {
             httpStatusCode: response.status
         };
 
         if (response.error) {
             resource.errors = [response.error];
         } else {
-            // Need mapping
-            resource.resource = { ...response.body };
+            resource.resource = mappingFunction(response.body);
         }
 
         return resource;
@@ -189,5 +202,4 @@ const teams = await apiClient.gitHub.getTeams(url);
 
 ## ToDo
 
-- Create Repo template
 - Publishes the SDK on npm package registry
