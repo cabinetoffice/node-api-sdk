@@ -2,6 +2,7 @@
   "name": "node_sdk_prototype",
   "version": "1.0.0",
   "description": "Node SDK Prototype",
+  "homepage": "https://github.com/cabinetoffice/node-api-sdk#README.md",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
