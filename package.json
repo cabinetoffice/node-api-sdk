@@ -1,8 +1,9 @@
 {
-  "name": "@co-digital/node_api_sdk",
+  "name": "@co-digital/api_sdk",
   "version": "1.0.0",
-  "description": "A Node api sdk Node.JS applications in CO Digital.",
-  "homepage": "https://github.com/cabinetoffice/node-api-sdk#README.md",
+  "description": "A api sdk Node.JS applications in CO Digital.",
+  "homepage": "https://github.com/cabinetoffice/api-sdk#README.md",
+  
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
@@ -16,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/cabinetoffice/node-api-sdk.git"
+    "url": "https://github.com/cabinetoffice/api-sdk.git"
   },
   "engines": {
     "npm": ">=10.0.0",
@@ -36,8 +37,16 @@
   "dependencies": {
     "axios": "^1.6.0"
   
-},
-"files": [
-  "./lib/**/*"
-]
+  },
+
+  "files": [
+    "./lib/**/*"
+  ],
+  
+
+  "keywords": [
+    "api", "sdk", "axios"
+  ]
 }
+  
+
