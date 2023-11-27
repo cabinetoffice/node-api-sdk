@@ -1,7 +1,7 @@
 {
   "name": "@co-digital/api-sdk",
-  "version": "1.0.0",
-  "description": "A api sdk Node.JS applications in CO Digital.",
+  "version": "1.0.1",
+  "description": "An API SDK for Node.JS applications in CO Digital.",
   "homepage": "https://github.com/cabinetoffice/api-sdk#README.md",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
