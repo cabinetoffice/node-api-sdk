@@ -193,13 +193,11 @@ export class Github {
 ## Integration
 
 ```js
-import { createOAuthApiClient } from "node-api-sdk";
+import { createOAuthApiClient } from "@co-digital/api-sdk";
 ...
 const apiClient = createOAuthApiClient(token);
 const teams = await apiClient.gitHub.getTeams(url);
 ...
 ```
 
-## ToDo
 
-- Publishes the SDK on npm package registry

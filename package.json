@@ -1,14 +1,24 @@
 {
-  "name": "node_sdk_prototype",
+  "name": "@co-digital/api_sdk",
   "version": "1.0.0",
-  "description": "Node SDK Prototype",
+  "description": "A api sdk Node.JS applications in CO Digital.",
+  "homepage": "https://github.com/cabinetoffice/api-sdk#README.md",
+  
   "main": "dist/index.js",
+  "types": "./lib/index.d.ts",
   "scripts": {
     "build": "tsc",
+    "start": "node lib/index.js",
     "lint": "eslint src",
     "lint:fix": "eslint --fix src",
     "test": "jest",
-    "coverage": "jest --coverage"
+    "coverage": "jest --coverage",
+    "prepublish": "[ ! -d node_modules ] && npm ci; tsc",
+    "postpublish": "rm -rf lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cabinetoffice/api-sdk.git"
   },
   "engines": {
     "npm": ">=10.0.0",
@@ -27,5 +37,13 @@
   },
   "dependencies": {
     "axios": "^1.6.0"
-  }
+  },
+  "files": [
+    "./lib/**/*"
+  ],
+  "keywords": [
+    "api", "sdk", "axios"
+  ]
 }
+  
+
