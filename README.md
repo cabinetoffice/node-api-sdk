@@ -1,4 +1,4 @@
-# Node API SDK 
+# Node API SDK
 
 This Node.js SDK module is a development tool that simplifies and accelerates the integration of external services or APIs into Node.js applications. It aims to make the developer's life easier by providing a well-documented, customizable, and reliable interface to interact with the external service.
 Allows developers to extend the SDK's behavior through configuration options and callbacks and implements security best practices that protect against common vulnerabilities and threats, especially if handling sensitive data or credentials.
@@ -200,4 +200,17 @@ const teams = await apiClient.gitHub.getTeams(url);
 ...
 ```
 
+## Contributing
 
+```sh
+## Set Node/NPM env
+nvm use
+
+## Installing & Building
+make build
+
+## Testing & Coverage
+make test
+#or
+make coverage
+```
