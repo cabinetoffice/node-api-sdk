@@ -8,15 +8,15 @@ export class Github {
         /**/
     }
     public async getRepos(url: string): Promise<ApiResponse<GitHubRepos> | ApiErrorResponse> {
-        return this.fetchData<GitHubRepos>(url, reposMapping);
+        return await this.fetchData<GitHubRepos>(url, reposMapping);
     }
 
     public async getMembers(url: string): Promise<ApiResponse<GitHubMembers> | ApiErrorResponse> {
-        return this.fetchData<GitHubMembers>(url, membersMapping);
+        return await this.fetchData<GitHubMembers>(url, membersMapping);
     }
 
     public async getTeams(url: string): Promise<ApiResponse<GitHubTeams> | ApiErrorResponse> {
-        return this.fetchData<GitHubTeams>(url, teamsMapping);
+        return await this.fetchData<GitHubTeams>(url, teamsMapping);
     }
 
     private async fetchData<T>(
