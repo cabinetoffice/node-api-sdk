@@ -6,11 +6,12 @@ import {
     MOCK_MEMBER_FETCH_RESPONSE,
     MOCK_TEAM_FETCH_RESPONSE,
     MOCK_HEADERS,
-    MOCK_REPO,
-    MOCK_MEMBER,
-    MOCK_TEAM,
+    MOCK_REPOS,
+    MOCK_MEMBERS,
+    MOCK_TEAMS,
     MOCK_ERROR_RESPONSE,
-    MOCK_ERROR
+    MOCK_ERROR,
+    MOCK_UNMAPPED_ENTREE_REPO
 } from '../../../mock/data.mock';
 import { HttpResponse } from '../../../../src/http-request/type';
 
@@ -43,7 +44,7 @@ describe('Github sdk module test suites', () => {
     });
 
     test('Should return repo data as an object', async () => {
-        httpRequestMock.httpGet.mockResolvedValue(createMockHttpResponse(MOCK_REPO));
+        httpRequestMock.httpGet.mockResolvedValue(createMockHttpResponse(MOCK_REPOS));
 
         const url = 'https://api.github.com/users/test/repos';
         const result = await github.getRepos(url);
@@ -51,7 +52,7 @@ describe('Github sdk module test suites', () => {
     });
 
     test('Should return member data as an object', async () => {
-        httpRequestMock.httpGet.mockResolvedValue(createMockHttpResponse(MOCK_MEMBER));
+        httpRequestMock.httpGet.mockResolvedValue(createMockHttpResponse(MOCK_MEMBERS));
 
         const url = 'https://api.github.com/org/test/members';
         const result = await github.getMembers(url);
@@ -59,7 +60,7 @@ describe('Github sdk module test suites', () => {
     });
 
     test('Should return team data as an object', async () => {
-        httpRequestMock.httpGet.mockResolvedValue(createMockHttpResponse(MOCK_TEAM));
+        httpRequestMock.httpGet.mockResolvedValue(createMockHttpResponse(MOCK_TEAMS));
 
         const url = 'https://api.github.com/users/test/teams';
         const result = await github.getTeams(url);
@@ -67,7 +68,7 @@ describe('Github sdk module test suites', () => {
     });
 
     test('Should return an object with an error property', async () => {
-        httpRequestMock.httpGet.mockResolvedValue(createMockHttpResponse(MOCK_TEAM, 500, MOCK_ERROR));
+        httpRequestMock.httpGet.mockResolvedValue(createMockHttpResponse(MOCK_TEAMS, 500, MOCK_ERROR));
 
         const url = 'https://api.github.com/users/test/repos';
         const result = await github.getTeams(url);
@@ -75,7 +76,7 @@ describe('Github sdk module test suites', () => {
     });
 
     test('Should ignore an unexpected entree in the object  ', async () => {
-        httpRequestMock.httpGet.mockResolvedValue(createMockHttpResponse({ ...MOCK_REPO, any: 'any' }));
+        httpRequestMock.httpGet.mockResolvedValue(createMockHttpResponse(MOCK_UNMAPPED_ENTREE_REPO));
 
         const url = 'https://api.github.com/users/test/repos';
         const result = await github.getRepos(url);

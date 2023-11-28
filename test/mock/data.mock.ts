@@ -6,45 +6,97 @@ export const MOCK_HEADERS: ApiOptions = {
     Authorization: ''
 };
 
-export const MOCK_REPO = {
-    archived: false,
-    created_at: '2015-12-10T11:48:11Z',
-    description: 'Best repo1',
-    full_name: 'org1/repo1',
-    html_url: 'https://github.com/org1/repo1',
-    url: 'https://api.github.com/org1/repo1',
-    visibility: 'public'
-};
+export const MOCK_REPOS = [
+    {
+        archived: false,
+        created_at: '2015-12-10T11:48:11Z',
+        description: 'Best repo 1',
+        full_name: 'org1/repo1',
+        html_url: 'https://github.com/org1/repo1',
+        url: 'https://api.github.com/org1/repo1',
+        visibility: 'public'
+    },
+    {
+        archived: false,
+        created_at: '2018-12-10T11:48:11Z',
+        description: 'Best repo 2',
+        full_name: 'org1/repo2',
+        html_url: 'https://github.com/org1/repo2',
+        url: 'https://api.github.com/org1/repo2',
+        visibility: 'public'
+    }
+];
+
+export const MOCK_UNMAPPED_ENTREE_REPO = [
+    {
+        archived: false,
+        created_at: '2015-12-10T11:48:11Z',
+        description: 'Best repo 1',
+        full_name: 'org1/repo1',
+        html_url: 'https://github.com/org1/repo1',
+        url: 'https://api.github.com/org1/repo1',
+        visibility: 'public',
+        test: 'test'
+    },
+    {
+        archived: false,
+        created_at: '2018-12-10T11:48:11Z',
+        description: 'Best repo 2',
+        full_name: 'org1/repo2',
+        html_url: 'https://github.com/org1/repo2',
+        url: 'https://api.github.com/org1/repo2',
+        visibility: 'public',
+        any: 'any'
+    }
+];
 
 export const MOCK_REPO_FETCH_RESPONSE = {
     httpStatusCode: 200,
-    resource: MOCK_REPO
+    resource: MOCK_REPOS
 };
 
-export const MOCK_MEMBER = {
-    login: 'user1',
-    url: 'https://api.github.com/users/user1',
-    html_url: 'https://github.com/user1',
-    repos_url: 'https://api.github.com/users/user1/repos'
-};
+export const MOCK_MEMBERS = [
+    {
+        login: 'user1',
+        url: 'https://api.github.com/users/user1',
+        html_url: 'https://github.com/user1',
+        repos_url: 'https://api.github.com/users/user1/repos'
+    },
+    {
+        login: 'user2',
+        url: 'https://api.github.com/users/user2',
+        html_url: 'https://github.com/user2',
+        repos_url: 'https://api.github.com/users/user2/repos'
+    }
+];
 
 export const MOCK_MEMBER_FETCH_RESPONSE = {
     httpStatusCode: 200,
-    resource: MOCK_MEMBER
+    resource: MOCK_MEMBERS
 };
 
-export const MOCK_TEAM = {
-    name: 'team1',
-    description: 'Test team',
-    url: 'https://api.github.com/organizations/test/team1',
-    html_url: 'https://github.com/orgs/alphagov/teams/team1',
-    repositories_url: 'https://api.github.com/organizations/test/team1/repos',
-    members_url: 'https://api.github.com/organizations/test/team1/members'
-};
+export const MOCK_TEAMS = [
+    {
+        name: 'team1',
+        description: 'Test team 1',
+        url: 'https://api.github.com/organizations/test/team1',
+        html_url: 'https://github.com/orgs/alphagov/teams/team1',
+        repositories_url: 'https://api.github.com/organizations/test/team1/repos',
+        members_url: 'https://api.github.com/organizations/test/team1/members'
+    },
+    {
+        name: 'team2',
+        description: 'Test team 2',
+        url: 'https://api.github.com/organizations/test/team2',
+        html_url: 'https://github.com/orgs/alphagov/teams/team2',
+        repositories_url: 'https://api.github.com/organizations/test/team2/repos',
+        members_url: 'https://api.github.com/organizations/test/team2/members'
+    }
+];
 
 export const MOCK_TEAM_FETCH_RESPONSE = {
     httpStatusCode: 200,
-    resource: MOCK_TEAM
+    resource: MOCK_TEAMS
 };
 
 export const MOCK_ERROR = {
