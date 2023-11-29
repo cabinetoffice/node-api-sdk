@@ -16,7 +16,7 @@ export class Github {
     }
 
     public async getTeams(url: string): Promise<ApiResponse<GitHubTeams[]> | ApiErrorResponse> {
-        return this.fetchData<GitHubTeams[]>(url, teamsMapping);
+        return await this.fetchData<GitHubTeams[]>(url, teamsMapping);
     }
 
     private async fetchData<T>(
