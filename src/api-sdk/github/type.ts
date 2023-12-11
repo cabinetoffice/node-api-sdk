@@ -23,3 +23,7 @@ export interface GitHubMembers {
     html_url: string;
     repos_url: string;
 }
+
+export interface GitHubMembersPerTeam {
+    login: string;
+}

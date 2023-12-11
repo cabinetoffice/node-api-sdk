@@ -99,6 +99,20 @@ export const MOCK_TEAM_FETCH_RESPONSE = {
     resource: MOCK_TEAMS
 };
 
+export const MOCK_MEMBERS_PER_TEAM = [
+    {
+        login: 'member1',
+    },
+    {
+        login: 'member2',
+    }
+];
+
+export const MOCK_MEMBERS_PER_TEAM_RESPONSE = {
+    httpStatusCode: 200,
+    resource: MOCK_MEMBERS_PER_TEAM
+};
+
 export const MOCK_ERROR = {
     error: 'Error: test error'
 };
