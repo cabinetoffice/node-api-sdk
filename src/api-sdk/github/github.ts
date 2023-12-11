@@ -1,6 +1,6 @@
-import { GitHubRepos, GitHubMembers, GitHubTeams } from './type';
+import { GitHubRepos, GitHubMembers, GitHubTeams, GithubMembersPerTeam } from './type';
 import { ApiResponse, ApiErrorResponse } from '../response';
-import { reposMapping, membersMapping, teamsMapping } from './mapping';
+import { reposMapping, membersMapping, teamsMapping, membersPerTeamMapping } from './mapping';
 import { HttpRequest } from '../../http-request';
 
 export class Github {
@@ -17,6 +17,10 @@ export class Github {
 
     public async getTeams(url: string): Promise<ApiResponse<GitHubTeams[]> | ApiErrorResponse> {
         return await this.fetchData<GitHubTeams[]>(url, teamsMapping);
+    }
+
+    public async getMembersPerTeam(url: string): Promise<ApiResponse<GithubMembersPerTeam[]> | ApiErrorResponse> {
+        return await this.fetchData<GithubMembersPerTeam[]>(url, membersPerTeamMapping);
     }
 
     private async fetchData<T>(

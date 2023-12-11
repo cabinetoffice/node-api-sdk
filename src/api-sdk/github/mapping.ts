@@ -1,4 +1,4 @@
-import { GitHubMembers, GitHubRepos, GitHubTeams } from './type';
+import { GitHubMembers, GitHubRepos, GitHubTeams, GithubMembersPerTeam } from './type';
 
 export const reposMapping = (body: any[]): GitHubRepos[] => {
     return body.map((obj) => ({
@@ -29,5 +29,11 @@ export const teamsMapping = (body: any[]): GitHubTeams[] => {
         html_url: obj.html_url,
         repositories_url: obj.repositories_url,
         members_url: obj.members_url
+    }));
+};
+
+export const membersPerTeamMapping = (body: any[]): GithubMembersPerTeam[] => {
+    return body.map((obj) => ({
+        login: obj.login,
     }));
 };
