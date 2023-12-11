@@ -24,6 +24,6 @@ export interface GitHubMembers {
     repos_url: string;
 }
 
-export interface GithubMembersPerTeam {
+export interface GitHubMembersPerTeam {
     login: string;
 }
