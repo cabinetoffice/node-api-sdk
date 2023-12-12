@@ -27,3 +27,7 @@ export interface GitHubMembers {
 export interface GitHubMembersPerTeam {
     login: string;
 }
+
+export interface GithubReposPerTeam {
+    name: string;
+}
