@@ -13,7 +13,9 @@ import {
     MOCK_ERROR,
     MOCK_UNMAPPED_ENTREE_REPO,
     MOCK_MEMBERS_PER_TEAM,
-    MOCK_MEMBERS_PER_TEAM_RESPONSE
+    MOCK_MEMBERS_PER_TEAM_RESPONSE,
+    MOCK_REPOS_PER_TEAM,
+    MOCK_REPOS_PER_TEAM_RESPONSE
 } from '../../../mock/data.mock';
 import { HttpResponse } from '../../../../src/http-request/type';
 
@@ -75,6 +77,14 @@ describe('Github sdk module test suites', () => {
         const url = 'https://api.github.com/organizations/test_org_id/team/test_team_id/members';
         const result = await github.getMembersPerTeam(url);
         expect(result).toEqual(MOCK_MEMBERS_PER_TEAM_RESPONSE);
+    });
+
+    test('Should return reposPerTeam data as an object', async () => {
+        httpRequestMock.httpGet.mockResolvedValue(createMockHttpResponse(MOCK_REPOS_PER_TEAM));
+
+        const url = 'https://api.github.com/organizations/test_org_id/teams/test_team_id/repos';
+        const result = await github.getReposPerTeam(url);
+        expect(result).toEqual(MOCK_REPOS_PER_TEAM_RESPONSE);
     });
 
     test('Should return an object with an error property', async () => {

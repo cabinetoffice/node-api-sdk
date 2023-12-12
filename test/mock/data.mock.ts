@@ -113,6 +113,20 @@ export const MOCK_MEMBERS_PER_TEAM_RESPONSE = {
     resource: MOCK_MEMBERS_PER_TEAM
 };
 
+export const MOCK_REPOS_PER_TEAM = [
+    {
+        name: 'repo1',
+    },
+    {
+        name: 'repo2',
+    }
+];
+
+export const MOCK_REPOS_PER_TEAM_RESPONSE = {
+    httpStatusCode: 200,
+    resource: MOCK_REPOS_PER_TEAM
+};
+
 export const MOCK_ERROR = {
     error: 'Error: test error'
 };
