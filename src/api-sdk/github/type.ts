@@ -28,6 +28,6 @@ export interface GitHubMembersPerTeam {
     login: string;
 }
 
-export interface GithubReposPerTeam {
+export interface GitHubReposPerTeam {
     name: string;
 }

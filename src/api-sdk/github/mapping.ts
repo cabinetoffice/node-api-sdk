@@ -1,4 +1,4 @@
-import { GitHubMembers, GitHubRepos, GitHubTeams, GitHubMembersPerTeam, GithubReposPerTeam } from './type';
+import { GitHubMembers, GitHubRepos, GitHubTeams, GitHubMembersPerTeam, GitHubReposPerTeam } from './type';
 
 export const reposMapping = (body: any[]): GitHubRepos[] => {
     return body.map((obj) => ({
@@ -38,7 +38,7 @@ export const membersPerTeamMapping = (body: any[]): GitHubMembersPerTeam[] => {
     }));
 };
 
-export const reposPerTeamMapping = (body: any[]): GithubReposPerTeam[] => {
+export const reposPerTeamMapping = (body: any[]): GitHubReposPerTeam[] => {
     return body.map((obj) => ({
         name: obj.name,
     }));
