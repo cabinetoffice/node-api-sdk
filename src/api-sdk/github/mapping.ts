@@ -2,6 +2,7 @@ import { GitHubMembers, GitHubRepos, GitHubTeams, GitHubMembersPerTeam, GitHubRe
 
 export const reposMapping = (body: any[]): GitHubRepos[] => {
     return body.map((obj) => ({
+        name: obj.name,
         description: obj.description,
         full_name: obj.full_name,
         visibility: obj.visibility,
