@@ -8,6 +8,7 @@ export const MOCK_HEADERS: ApiOptions = {
 
 export const MOCK_REPOS = [
     {
+        name: "repo1",
         archived: false,
         created_at: '2015-12-10T11:48:11Z',
         description: 'Best repo 1',
@@ -17,6 +18,7 @@ export const MOCK_REPOS = [
         visibility: 'public'
     },
     {
+        name: "repo2",
         archived: false,
         created_at: '2018-12-10T11:48:11Z',
         description: 'Best repo 2',
@@ -29,6 +31,7 @@ export const MOCK_REPOS = [
 
 export const MOCK_UNMAPPED_ENTREE_REPO = [
     {
+        name: "repo1",
         archived: false,
         created_at: '2015-12-10T11:48:11Z',
         description: 'Best repo 1',
@@ -39,6 +42,7 @@ export const MOCK_UNMAPPED_ENTREE_REPO = [
         test: 'test'
     },
     {
+        name: "repo2",
         archived: false,
         created_at: '2018-12-10T11:48:11Z',
         description: 'Best repo 2',

@@ -1,4 +1,5 @@
 export interface GitHubRepos {
+    name: string;
     description: string;
     full_name: string;
     visibility: string;
