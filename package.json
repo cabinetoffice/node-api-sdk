@@ -12,6 +12,7 @@
     "lint:fix": "eslint --fix src",
     "test": "jest",
     "coverage": "jest --coverage",
+    "prepare": "husky install",
     "prepublish": "[ ! -d node_modules ] && npm ci; tsc",
     "postpublish": "rm -rf lib"
   },
@@ -30,6 +31,7 @@
     "@typescript-eslint/eslint-plugin": "^6.8.0",
     "@typescript-eslint/parser": "^6.8.0",
     "eslint": "^8.51.0",
+    "husky": "^8.0.3",
     "prettier": "^3.0.3",
     "ts-jest": "^29.1.1",
     "typescript": "^5.2.2"
