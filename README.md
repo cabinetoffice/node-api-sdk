@@ -1,19 +1,22 @@
 # Node API SDK
 
+![npm](https://img.shields.io/npm/v/%40co-digital%2Fapi-sdk)
+![Static Badge](https://img.shields.io/badge/test_coverage-%E2%89%A595%25-green)
+
 This Node.js SDK module is a development tool that simplifies and accelerates the integration of external services or APIs into Node.js applications. It aims to make the developer's life easier by providing a well-documented, customizable, and reliable interface to interact with the external service.
 Allows developers to extend the SDK's behavior through configuration options and callbacks and implements security best practices that protect against common vulnerabilities and threats, especially if handling sensitive data or credentials.
 
 ## Files Structure
 
-Directory Path | Description
---- | ---
-`./api-client/` | This directory is used to create api client object based on Authentication headers (OAuth or api Key).
-`./api-sdk/` | This directory is where the department related SDK modules are keept.
-`./api-sdk/github` | This folder is the entry point for the GitHub API SDK calls, data types and includes TypeScript interfaces that describe the structure and shape of various objects used in the module and possible mapping.
-`./api-sdk/identity` | This folder is the entry point for the Identity API SDK calls, data types and mapping.
-`./http-request/` | This folder contains the core class of this module, the `HttpRequest` class. It serves as the foundation for creating an `Axios` object with a predefined sequence of `AxiosRequestConfig` configurations before initiating the actual HTTP request. This object will then be provided as a parameter to the ApiSDK and passed to all SDKs for executing the corresponding HTTP calls.
-`./index.ts` | This file will export all related and important function of this module, mainly `createOAuthApiClient` and `createApiKeyClient`.
-Others files | Other files related to modules dependency, CI/CD, *git, dockerization, lint, test/typescript configs …
+| Directory Path       | Description                                                                                                                                                                                                                                                                                                                                                                            |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `./api-client/`      | This directory is used to create api client object based on Authentication headers (OAuth or api Key).                                                                                                                                                                                                                                                                                 |
+| `./api-sdk/`         | This directory is where the department related SDK modules are keept.                                                                                                                                                                                                                                                                                                                  |
+| `./api-sdk/github`   | This folder is the entry point for the GitHub API SDK calls, data types and includes TypeScript interfaces that describe the structure and shape of various objects used in the module and possible mapping.                                                                                                                                                                           |
+| `./api-sdk/identity` | This folder is the entry point for the Identity API SDK calls, data types and mapping.                                                                                                                                                                                                                                                                                                 |
+| `./http-request/`    | This folder contains the core class of this module, the `HttpRequest` class. It serves as the foundation for creating an `Axios` object with a predefined sequence of `AxiosRequestConfig` configurations before initiating the actual HTTP request. This object will then be provided as a parameter to the ApiSDK and passed to all SDKs for executing the corresponding HTTP calls. |
+| `./index.ts`         | This file will export all related and important function of this module, mainly `createOAuthApiClient` and `createApiKeyClient`.                                                                                                                                                                                                                                                       |
+| Others files         | Other files related to modules dependency, CI/CD, \*git, dockerization, lint, test/typescript configs …                                                                                                                                                                                                                                                                                |
 
 ## Api Client module
 
@@ -21,23 +24,23 @@ This directory is responsible for creating API client objects that interact with
 
 ```js
 const apiOptions: ApiOptions = {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
-    'Authorization': ''
+  "Content-Type": "application/json",
+  Accept: "application/json",
+  Authorization: "",
 };
 
 const createApiSDK = (apiOptions: ApiOptions): ApiSDK => {
-    return new ApiSDK(new HttpRequest(apiOptions));
+  return new ApiSDK(new HttpRequest(apiOptions));
 };
 
 export const createOAuthApiClient = (token: string): ApiSDK => {
-    apiOptions.Authorization = `Bearer ${token}`;
-    return createApiSDK(apiOptions);
+  apiOptions.Authorization = `Bearer ${token}`;
+  return createApiSDK(apiOptions);
 };
 
 export const createApiKeyClient = (key: string): ApiSDK => {
-    apiOptions.Authorization = key;
-    return createApiSDK(apiOptions);
+  apiOptions.Authorization = key;
+  return createApiSDK(apiOptions);
 };
 ```
 
@@ -87,7 +90,7 @@ The `http-request` directory contains core functionality for handling HTTP reque
 export class HttpRequest {
 
     constructor(private readonly headers: ApiOptions) { /**/ }
-    public async httpGet(url: string, headers?: Headers): Promise<HttpResponse> { 
+    public async httpGet(url: string, headers?: Headers): Promise<HttpResponse> {
         return await this.request({ method: "GET", url, headers });
     }
     public async httpPost(url: string, body?: any, headers?: Headers): Promise<HttpResponse> { /*...*/ }
