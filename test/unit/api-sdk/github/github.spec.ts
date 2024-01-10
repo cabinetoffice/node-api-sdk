@@ -15,7 +15,9 @@ import {
     MOCK_MEMBERS_PER_TEAM,
     MOCK_MEMBERS_PER_TEAM_RESPONSE,
     MOCK_REPOS_PER_TEAM,
-    MOCK_REPOS_PER_TEAM_RESPONSE
+    MOCK_REPOS_PER_TEAM_RESPONSE,
+    MOCK_403_ERROR_MSG,
+    MOCK_403_ERROR_RESPONSE
 } from '../../../mock/data.mock';
 import { HttpResponse } from '../../../../src/http-request/type';
 
@@ -90,7 +92,7 @@ describe('Github sdk module test suites', () => {
     test('Should return an object with an error property', async () => {
         httpRequestMock.httpGet.mockResolvedValue(createMockHttpResponse(MOCK_TEAMS, 500, MOCK_ERROR));
 
-        const url = 'https://api.github.com/users/test/repos';
+        const url = 'https://api.github.com/users/test/teams';
         const result = await github.getTeams(url);
         expect(result).toEqual(MOCK_ERROR_RESPONSE);
     });
@@ -102,5 +104,13 @@ describe('Github sdk module test suites', () => {
         const result = await github.getRepos(url);
 
         expect(result).toEqual(MOCK_REPO_FETCH_RESPONSE);
+    });
+
+    test('Should return an object with an error property when status code is 403 with no error response', async () => {
+        httpRequestMock.httpGet.mockResolvedValue(createMockHttpResponse(MOCK_403_ERROR_MSG, 403));
+
+        const url = 'https://api.github.com/users/test/repos';
+        const result = await github.getRepos(url);
+        expect(result).toEqual(MOCK_403_ERROR_RESPONSE);
     });
 });

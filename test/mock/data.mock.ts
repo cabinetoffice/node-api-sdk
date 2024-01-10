@@ -139,3 +139,10 @@ export const MOCK_ERROR_RESPONSE = {
     httpStatusCode: 500,
     errors: [MOCK_ERROR]
 };
+
+export const MOCK_403_ERROR_MSG = { "message": "Must have admin rights to Repository." };
+
+export const MOCK_403_ERROR_RESPONSE = {
+    httpStatusCode: 403,
+    errors: [MOCK_403_ERROR_MSG]
+};
