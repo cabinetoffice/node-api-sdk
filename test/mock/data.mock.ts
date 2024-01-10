@@ -76,7 +76,7 @@ export const MOCK_MEMBERS = [
 
 export const MOCK_MEMBER_FETCH_RESPONSE = {
     httpStatusCode: 200,
-    resource: MOCK_MEMBERS
+    resource: MOCK_MEMBERS.map(({ repos_url, ...rest }) => rest)
 };
 
 export const MOCK_TEAMS = [
@@ -100,7 +100,7 @@ export const MOCK_TEAMS = [
 
 export const MOCK_TEAM_FETCH_RESPONSE = {
     httpStatusCode: 200,
-    resource: MOCK_TEAMS
+    resource: MOCK_TEAMS.map(({ members_url, repositories_url, ...rest }) => rest)
 };
 
 export const MOCK_MEMBERS_PER_TEAM = [

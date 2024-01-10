@@ -14,15 +14,12 @@ export interface GitHubTeams {
     description: string;
     url: string;
     html_url: string;
-    repositories_url: string;
-    members_url: string;
 }
 
 export interface GitHubMembers {
     login: string;
     url: string;
     html_url: string;
-    repos_url: string;
 }
 
 export interface GitHubMembersPerTeam {
