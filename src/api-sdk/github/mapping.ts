@@ -17,8 +17,7 @@ export const membersMapping = (body: any[]): GitHubMembers[] => {
     return body.map((obj) => ({
         login: obj.login,
         url: obj.url,
-        html_url: obj.html_url,
-        repos_url: obj.repos_url
+        html_url: obj.html_url
     }));
 };
 
@@ -27,9 +26,7 @@ export const teamsMapping = (body: any[]): GitHubTeams[] => {
         name: obj.name,
         description: obj.description,
         url: obj.url,
-        html_url: obj.html_url,
-        repositories_url: obj.repositories_url,
-        members_url: obj.members_url
+        html_url: obj.html_url
     }));
 };
 

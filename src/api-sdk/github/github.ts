@@ -38,6 +38,8 @@ export class Github {
 
         if (response.error) {
             resource.errors = [response.error];
+        } else if (response.status >= 400) {
+            resource.errors = [response.body];
         } else {
             resource.resource = mappingFunction(response.body);
         }

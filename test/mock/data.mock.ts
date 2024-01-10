@@ -76,7 +76,7 @@ export const MOCK_MEMBERS = [
 
 export const MOCK_MEMBER_FETCH_RESPONSE = {
     httpStatusCode: 200,
-    resource: MOCK_MEMBERS
+    resource: MOCK_MEMBERS.map(({ repos_url, ...rest }) => rest)
 };
 
 export const MOCK_TEAMS = [
@@ -100,7 +100,7 @@ export const MOCK_TEAMS = [
 
 export const MOCK_TEAM_FETCH_RESPONSE = {
     httpStatusCode: 200,
-    resource: MOCK_TEAMS
+    resource: MOCK_TEAMS.map(({ members_url, repositories_url, ...rest }) => rest)
 };
 
 export const MOCK_MEMBERS_PER_TEAM = [
@@ -138,4 +138,11 @@ export const MOCK_ERROR = {
 export const MOCK_ERROR_RESPONSE = {
     httpStatusCode: 500,
     errors: [MOCK_ERROR]
+};
+
+export const MOCK_403_ERROR_MSG = { "message": "Must have admin rights to Repository." };
+
+export const MOCK_403_ERROR_RESPONSE = {
+    httpStatusCode: 403,
+    errors: [MOCK_403_ERROR_MSG]
 };
