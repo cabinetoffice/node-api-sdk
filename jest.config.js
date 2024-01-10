@@ -3,6 +3,11 @@ module.exports = {
     testPathIgnorePatterns: ['/node_modules/', '/lib/'],
     coveragePathIgnorePatterns: ['/src/index.ts'],
     collectCoverageFrom: ['./src/**/*.ts'],
+    coverageThreshold: {
+        global: {
+            lines: 95,
+        },
+    },
     preset: 'ts-jest',
     testEnvironment: 'node',
     verbose: true,
