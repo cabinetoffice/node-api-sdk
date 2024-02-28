@@ -1,37 +1,75 @@
-import { GitHubRepos, GitHubMembers, GitHubTeams, GitHubMembersPerTeam, GitHubReposPerTeam } from './type';
+import {
+    GitHubRepos,
+    GitHubMembers,
+    GitHubTeams,
+    GitHubMembersPerTeam,
+    GitHubReposPerTeam,
+    GitHubCollaboratorsPerRepo,
+    GitHubIssueRequest
+} from './type';
+import {
+    reposMapping,
+    membersMapping,
+    teamsMapping,
+    membersPerTeamMapping,
+    reposPerTeamMapping,
+    collaboratorsPerRepoMapping
+} from './mapping';
+
 import { ApiResponse, ApiErrorResponse } from '../response';
-import { reposMapping, membersMapping, teamsMapping, membersPerTeamMapping, reposPerTeamMapping } from './mapping';
 import { HttpRequest } from '../../http-request';
 
 export class Github {
-    constructor(private readonly request: HttpRequest) {
-        /**/
+
+    constructor(private readonly request: HttpRequest) { /**/ }
+
+    // Get info data. Could be repos/members/collaborator/teams ...
+    public async getGitHubInfo(url: string): Promise<ApiResponse<any[]> | ApiErrorResponse> {
+        const response = await this.request.httpGet(url);
+        return this.responseHandler(response);
     }
+
+    // Create Issue on defined repo
+    public async postIssue (url: string, body: GitHubIssueRequest): Promise<ApiResponse<any> | ApiErrorResponse> {
+        const response = await this.request.httpPost(url, body);
+        return this.responseHandler(response);
+    }
+
+    // Github data Mapped for IDC project
     public async getRepos(url: string): Promise<ApiResponse<GitHubRepos[]> | ApiErrorResponse> {
-        return await this.fetchData<GitHubRepos[]>(url, reposMapping);
+        const response = await this.request.httpGet(url);
+        return this.responseHandler<GitHubRepos[]>(response, reposMapping);
     }
 
     public async getMembers(url: string): Promise<ApiResponse<GitHubMembers[]> | ApiErrorResponse> {
-        return await this.fetchData<GitHubMembers[]>(url, membersMapping);
+        const response = await this.request.httpGet(url);
+        return this.responseHandler<GitHubMembers[]>(response, membersMapping);
     }
 
     public async getTeams(url: string): Promise<ApiResponse<GitHubTeams[]> | ApiErrorResponse> {
-        return await this.fetchData<GitHubTeams[]>(url, teamsMapping);
+        const response = await this.request.httpGet(url);
+        return this.responseHandler<GitHubTeams[]>(response, teamsMapping);
     }
 
     public async getMembersPerTeam(url: string): Promise<ApiResponse<GitHubMembersPerTeam[]> | ApiErrorResponse> {
-        return await this.fetchData<GitHubMembersPerTeam[]>(url, membersPerTeamMapping);
+        const response = await this.request.httpGet(url);
+        return this.responseHandler<GitHubMembersPerTeam[]>(response, membersPerTeamMapping);
     }
 
     public async getReposPerTeam(url: string): Promise<ApiResponse<GitHubReposPerTeam[]> | ApiErrorResponse> {
-        return await this.fetchData<GitHubReposPerTeam[]>(url, reposPerTeamMapping);
+        const response = await this.request.httpGet(url);
+        return this.responseHandler<GitHubReposPerTeam[]>(response, reposPerTeamMapping);
     }
 
-    private async fetchData<T>(
-        url: string,
-        mappingFunction: (body: any) => T
-    ): Promise<ApiResponse<T> | ApiErrorResponse> {
+    public async getCollaboratorsPerRepo(url: string): Promise<ApiResponse<GitHubCollaboratorsPerRepo[]> | ApiErrorResponse> {
         const response = await this.request.httpGet(url);
+        return this.responseHandler<GitHubCollaboratorsPerRepo[]>(response, collaboratorsPerRepoMapping);
+    }
+
+    private responseHandler<T>(
+        response: any,
+        responseMap?: (body: any) => T
+    ): ApiResponse<T> | ApiErrorResponse {
         const resource: ApiResponse<T> & ApiErrorResponse = {
             httpStatusCode: response.status
         };
@@ -41,7 +79,7 @@ export class Github {
         } else if (response.status >= 400) {
             resource.errors = [response.body];
         } else {
-            resource.resource = mappingFunction(response.body);
+            resource.resource = (responseMap) ? responseMap(response.body) : response.body;
         }
 
         return resource;
