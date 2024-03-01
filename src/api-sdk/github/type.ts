@@ -29,3 +29,22 @@ export interface GitHubMembersPerTeam {
 export interface GitHubReposPerTeam {
     name: string;
 }
+
+export interface GitHubCollaboratorsPerRepo {
+    login: string;
+    permissions: {
+        pull: boolean;
+        triage: boolean;
+        push: boolean;
+        maintain: boolean;
+        admin: boolean;
+    }
+}
+
+export interface GitHubIssueRequest {
+    title: string,
+    body: string,
+    milestone: number,
+    assignees: string[],
+    labels: string[]
+}

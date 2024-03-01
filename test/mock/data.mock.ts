@@ -29,7 +29,7 @@ export const MOCK_REPOS = [
     }
 ];
 
-export const MOCK_UNMAPPED_ENTREE_REPO = [
+export const MOCK_UNMAPPED_RESPONSE_REPO = [
     {
         name: "repo1",
         archived: false,
@@ -54,6 +54,8 @@ export const MOCK_UNMAPPED_ENTREE_REPO = [
     }
 ];
 
+export const MOCK_FULL_RESPONSE_REPO = [ ...MOCK_UNMAPPED_RESPONSE_REPO ];
+
 export const MOCK_REPO_FETCH_RESPONSE = {
     httpStatusCode: 200,
     resource: MOCK_REPOS
@@ -73,6 +75,8 @@ export const MOCK_MEMBERS = [
         repos_url: 'https://api.github.com/users/user2/repos'
     }
 ];
+
+export const MOCK_FULL_RESPONSE_MEMBERS = [ ...MOCK_MEMBERS ];
 
 export const MOCK_MEMBER_FETCH_RESPONSE = {
     httpStatusCode: 200,
@@ -129,6 +133,40 @@ export const MOCK_REPOS_PER_TEAM = [
 export const MOCK_REPOS_PER_TEAM_RESPONSE = {
     httpStatusCode: 200,
     resource: MOCK_REPOS_PER_TEAM
+};
+
+export const MOCK_COLLABORATORS_PER_REPO = [
+    {
+        other: 'other',
+        login: 'name',
+        permissions: { pull: true, triage: true, push: true, maintain: true, admin: true }
+    },
+    {
+        other: 'other2',
+        login: 'name2',
+        permissions: { pull: true, triage: false, push: false, maintain: false, admin: false }
+    },
+];
+
+export const MOCK_COLLABORATORS_PER_REPO_RESPONSE = {
+    httpStatusCode: 200,
+    resource: MOCK_COLLABORATORS_PER_REPO.map(({ other, ...rest }) => rest)
+};
+
+export const MOCK_ISSUE_BODY = {
+    title: "Add member to the team",
+    body: "Add member Bob to the team Alice.",
+    assignees: ["IDC TEAM"],
+    milestone: 1,
+    labels: ["GIT"]
+};
+
+export const MOCK_ISSUE_RESPONSE = {
+    id: 1,
+    number: 1347,
+    state: "open",
+    title: "Add member to the team",
+    body: "Add member Bob to the team Alice."
 };
 
 export const MOCK_ERROR = {

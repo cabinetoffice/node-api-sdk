@@ -11,20 +11,27 @@ import {
     MOCK_TEAMS,
     MOCK_ERROR_RESPONSE,
     MOCK_ERROR,
-    MOCK_UNMAPPED_ENTREE_REPO,
+    MOCK_UNMAPPED_RESPONSE_REPO,
     MOCK_MEMBERS_PER_TEAM,
     MOCK_MEMBERS_PER_TEAM_RESPONSE,
     MOCK_REPOS_PER_TEAM,
     MOCK_REPOS_PER_TEAM_RESPONSE,
     MOCK_403_ERROR_MSG,
-    MOCK_403_ERROR_RESPONSE
+    MOCK_403_ERROR_RESPONSE,
+    MOCK_COLLABORATORS_PER_REPO,
+    MOCK_COLLABORATORS_PER_REPO_RESPONSE,
+    MOCK_FULL_RESPONSE_REPO,
+    MOCK_FULL_RESPONSE_MEMBERS,
+    MOCK_ISSUE_RESPONSE,
+    MOCK_ISSUE_BODY
 } from '../../../mock/data.mock';
 import { HttpResponse } from '../../../../src/http-request/type';
 
 jest.mock('../../../../src/http-request/index', () => {
     return {
         HttpRequest: jest.fn().mockImplementation(() => ({
-            httpGet: jest.fn()
+            httpGet: jest.fn(),
+            httpPost: jest.fn()
         }))
     };
 });
@@ -55,6 +62,39 @@ describe('Github sdk module test suites', () => {
         const url = 'https://api.github.com/users/test/repos';
         const result = await github.getRepos(url);
         expect(result).toEqual(MOCK_REPO_FETCH_RESPONSE);
+    });
+
+    test('Should return full repo data as an object', async () => {
+        httpRequestMock.httpGet.mockResolvedValue(createMockHttpResponse(MOCK_FULL_RESPONSE_REPO));
+
+        const url = 'https://api.github.com/org/test/repos';
+        const result = await github.getGitHubInfo(url);
+        expect(result).toEqual({
+            ...MOCK_REPO_FETCH_RESPONSE,
+            resource: MOCK_FULL_RESPONSE_REPO
+        });
+    });
+
+    test('Should return full members data as an object', async () => {
+        httpRequestMock.httpGet.mockResolvedValue(createMockHttpResponse(MOCK_FULL_RESPONSE_MEMBERS));
+
+        const url = 'https://api.github.com/org/test/members';
+        const result = await github.getGitHubInfo(url);
+        expect(result).toEqual({
+            httpStatusCode: 200,
+            resource: MOCK_FULL_RESPONSE_MEMBERS
+        });
+    });
+
+    test('Should post an issue and return the object data', async () => {
+        httpRequestMock.httpPost.mockResolvedValue(createMockHttpResponse(MOCK_ISSUE_RESPONSE));
+
+        const url = 'https://api.github.com/repos/org1/repo1/issues';
+        const result = await github.postIssue(url, MOCK_ISSUE_BODY);
+        expect(result).toEqual({
+            httpStatusCode: 200,
+            resource: MOCK_ISSUE_RESPONSE
+        });
     });
 
     test('Should return member data as an object', async () => {
@@ -89,6 +129,14 @@ describe('Github sdk module test suites', () => {
         expect(result).toEqual(MOCK_REPOS_PER_TEAM_RESPONSE);
     });
 
+    test('Should return collaborators per repo data as an object', async () => {
+        httpRequestMock.httpGet.mockResolvedValue(createMockHttpResponse(MOCK_COLLABORATORS_PER_REPO));
+
+        const url = 'https://api.github.com/repos/organizations/repo/collaborators';
+        const result = await github.getCollaboratorsPerRepo(url);
+        expect(result).toEqual(MOCK_COLLABORATORS_PER_REPO_RESPONSE);
+    });
+
     test('Should return an object with an error property', async () => {
         httpRequestMock.httpGet.mockResolvedValue(createMockHttpResponse(MOCK_TEAMS, 500, MOCK_ERROR));
 
@@ -97,8 +145,8 @@ describe('Github sdk module test suites', () => {
         expect(result).toEqual(MOCK_ERROR_RESPONSE);
     });
 
-    test('Should ignore an unexpected entree in the object  ', async () => {
-        httpRequestMock.httpGet.mockResolvedValue(createMockHttpResponse(MOCK_UNMAPPED_ENTREE_REPO));
+    test('Should ignore an unexpected response fields in the object  ', async () => {
+        httpRequestMock.httpGet.mockResolvedValue(createMockHttpResponse(MOCK_UNMAPPED_RESPONSE_REPO));
 
         const url = 'https://api.github.com/users/test/repos';
         const result = await github.getRepos(url);

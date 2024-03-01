@@ -4,14 +4,14 @@
 ![Static Badge](https://img.shields.io/badge/test_coverage-%E2%89%A595%25-green)
 
 This Node.js SDK module is a development tool that simplifies and accelerates the integration of external services or APIs into Node.js applications. It aims to make the developer's life easier by providing a well-documented, customizable, and reliable interface to interact with the external service.
-Allows developers to extend the SDK's behavior through configuration options and callbacks and implements security best practices that protect against common vulnerabilities and threats, especially if handling sensitive data or credentials.
+Allows developers to extend the SDK's behaviour through configuration options and callbacks and implements security best practices that protect against common vulnerabilities and threats, especially if handling sensitive data or credentials.
 
 ## Files Structure
 
 | Directory Path       | Description                                                                                                                                                                                                                                                                                                                                                                            |
 | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `./api-client/`      | This directory is used to create api client object based on Authentication headers (OAuth or api Key).                                                                                                                                                                                                                                                                                 |
-| `./api-sdk/`         | This directory is where the department related SDK modules are keept.                                                                                                                                                                                                                                                                                                                  |
+| `./api-sdk/`         | This directory is where the department related SDK modules are kept.                                                                                                                                                                                                                                                                                                                  |
 | `./api-sdk/github`   | This folder is the entry point for the GitHub API SDK calls, data types and includes TypeScript interfaces that describe the structure and shape of various objects used in the module and possible mapping.                                                                                                                                                                           |
 | `./api-sdk/identity` | This folder is the entry point for the Identity API SDK calls, data types and mapping.                                                                                                                                                                                                                                                                                                 |
 | `./http-request/`    | This folder contains the core class of this module, the `HttpRequest` class. It serves as the foundation for creating an `Axios` object with a predefined sequence of `AxiosRequestConfig` configurations before initiating the actual HTTP request. This object will then be provided as a parameter to the ApiSDK and passed to all SDKs for executing the corresponding HTTP calls. |
@@ -156,36 +156,44 @@ The HttpRequest class is responsible for configuring Axios `request` with predef
 ```js
 import { HttpRequest } from "../../http-request";
 import { ApiResponse, ApiErrorResponse } from "../response";
+import { GitHubRepos, GitHubIssueRequest } from './type';
+import { reposMapping } from './mapping';
 
 export class Github {
-    constructor(private readonly request: HttpRequest) {
-        /**/
-    }
-    public async getRepos(url: string): Promise<ApiResponse<GitHubRepos> | ApiErrorResponse> {
-        return this.fetchData<GitHubRepos>(url, reposMapping);
-    }
 
-    public async getMembers(url: string): Promise<ApiResponse<GitHubMembers> | ApiErrorResponse> {
-        return this.fetchData<GitHubMembers>(url, membersMapping);
-    }
+    constructor(private readonly request: HttpRequest) { /**/ }
 
-    public async getTeams(url: string): Promise<ApiResponse<GitHubTeams> | ApiErrorResponse> {
-        return this.fetchData<GitHubTeams>(url, teamsMapping);
-    }
-
-    private async fetchData<T>(
-        url: string,
-        mappingFunction: (body: any) => T
-    ): Promise<ApiResponse<T> | ApiErrorResponse> {
+    public async getGitHubInfo(url: string): Promise<ApiResponse<any[]> | ApiErrorResponse> {
         const response = await this.request.httpGet(url);
+        return this.responseHandler(response);
+    }
+
+    public async postIssue (url: string, body: GitHubIssueRequest): Promise<ApiResponse<any> | ApiErrorResponse> {
+        const response = await this.request.httpPost(url, body);
+        return this.responseHandler(response);
+    }
+
+    public async getRepos(url: string): Promise<ApiResponse<GitHubRepos[]> | ApiErrorResponse> {
+        const response = await this.request.httpGet(url);
+        return this.responseHandler<GitHubRepos[]>(response, reposMapping);
+    }
+
+    // ...
+
+    private responseHandler<T>(
+        response: any,
+        responseMap?: (body: any) => T
+    ): ApiResponse<T> | ApiErrorResponse {
         const resource: ApiResponse<T> & ApiErrorResponse = {
             httpStatusCode: response.status
         };
 
         if (response.error) {
             resource.errors = [response.error];
+        } else if (response.status >= 400) {
+            resource.errors = [response.body];
         } else {
-            resource.resource = mappingFunction(response.body);
+            resource.resource = (responseMap) ? responseMap(response.body) : response.body;
         }
 
         return resource;
