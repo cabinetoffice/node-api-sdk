@@ -31,7 +31,7 @@ export class Github {
 
     // Create Issue on defined repo
     public async postIssue (url: string, body: GitHubIssueRequest): Promise<ApiResponse<any> | ApiErrorResponse> {
-        const response = await this.request.httpPost(url, body);
+        const response = await this.request.httpPost(url, JSON.stringify(body));
         return this.responseHandler(response);
     }
 
