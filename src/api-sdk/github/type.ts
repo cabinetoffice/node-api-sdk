@@ -44,7 +44,6 @@ export interface GitHubCollaboratorsPerRepo {
 export interface GitHubIssueRequest {
     title: string,
     body: string,
-    milestone: number,
     assignees: string[],
     labels: string[]
 }

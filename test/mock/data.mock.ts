@@ -157,7 +157,6 @@ export const MOCK_ISSUE_BODY = {
     title: "Add member to the team",
     body: "Add member Bob to the team Alice.",
     assignees: ["IDC TEAM"],
-    milestone: 1,
     labels: ["GIT"]
 };
 
