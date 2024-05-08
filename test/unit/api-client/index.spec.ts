@@ -23,10 +23,10 @@ describe('api-client module test suites', () => {
         expect(ApiSDK).toHaveBeenCalledTimes(1);
     });
     test('creatApiKeyClient sets authorization key with key passed in', () => {
-        const key = 'some key';
-        createApiKeyClient(key);
+        const fakeKey = 'some key';
+        createApiKeyClient(fakeKey);
 
-        const apiKeyHeaders = { ...MOCK_HEADERS, Authorization: key };
+        const apiKeyHeaders = { ...MOCK_HEADERS, Authorization: fakeKey };
 
         expect(HttpRequest).toHaveBeenCalledWith(apiKeyHeaders);
         expect(ApiSDK).toHaveBeenCalledTimes(1);
