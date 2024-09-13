@@ -23,7 +23,11 @@ import {
     MOCK_FULL_RESPONSE_REPO,
     MOCK_FULL_RESPONSE_MEMBERS,
     MOCK_ISSUE_RESPONSE,
-    MOCK_ISSUE_BODY
+    MOCK_ISSUE_BODY,
+    MOCK_GET,
+    MOCK_GET_RESPONSE,
+    MOCK_POST,
+    MOCK_POST_RESPONSE
 } from '../../../mock/data.mock';
 import { HttpResponse } from '../../../../src/http-request/type';
 
@@ -135,6 +139,28 @@ describe('Github sdk module test suites', () => {
         const url = 'https://api.github.com/repos/organizations/repo/collaborators';
         const result = await github.getCollaboratorsPerRepo(url);
         expect(result).toEqual(MOCK_COLLABORATORS_PER_REPO_RESPONSE);
+    });
+
+    test('should return get data ', async () => {
+        httpRequestMock.httpGet.mockResolvedValue(createMockHttpResponse(MOCK_GET));
+
+        const url = 'https://api.github.com/test/get';
+        const result = await github.getData(url);
+
+        expect(httpRequestMock.httpGet).toHaveBeenCalledWith(url);
+        expect(result).toEqual(MOCK_GET_RESPONSE);
+    });
+
+    test('should post data successfully', async () => {
+        httpRequestMock.httpPost.mockResolvedValue(createMockHttpResponse(MOCK_POST));
+
+        const url = 'https://api.github.com/test/post';
+        const body = { key: 'value' };
+
+        const result = await github.postData(url, body);
+
+        expect(httpRequestMock.httpPost).toHaveBeenCalledWith(url, JSON.stringify(body));
+        expect(result).toEqual(MOCK_POST_RESPONSE);
     });
 
     test('Should return an object with an error property', async () => {
