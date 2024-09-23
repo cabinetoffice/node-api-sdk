@@ -66,6 +66,18 @@ export class Github {
         return this.responseHandler<GitHubCollaboratorsPerRepo[]>(response, collaboratorsPerRepoMapping);
     }
 
+    // generic get and post functions
+
+    public async getData(url: string): Promise<ApiResponse<any> | ApiErrorResponse> {
+        const response = await this.request.httpGet(url);
+        return this.responseHandler<any>(response);
+    }
+
+    public async postData(url: string, body: any): Promise<ApiResponse<any> | ApiErrorResponse> {
+        const response = await this.request.httpPost(url, JSON.stringify(body));
+        return this.responseHandler<any>(response);
+    }
+
     private responseHandler<T>(
         response: any,
         responseMap?: (body: any) => T

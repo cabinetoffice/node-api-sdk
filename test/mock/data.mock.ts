@@ -8,7 +8,7 @@ export const MOCK_HEADERS: ApiOptions = {
 
 export const MOCK_REPOS = [
     {
-        name: "repo1",
+        name: 'repo1',
         archived: false,
         created_at: '2015-12-10T11:48:11Z',
         description: 'Best repo 1',
@@ -18,7 +18,7 @@ export const MOCK_REPOS = [
         visibility: 'public'
     },
     {
-        name: "repo2",
+        name: 'repo2',
         archived: false,
         created_at: '2018-12-10T11:48:11Z',
         description: 'Best repo 2',
@@ -31,7 +31,7 @@ export const MOCK_REPOS = [
 
 export const MOCK_UNMAPPED_RESPONSE_REPO = [
     {
-        name: "repo1",
+        name: 'repo1',
         archived: false,
         created_at: '2015-12-10T11:48:11Z',
         description: 'Best repo 1',
@@ -42,7 +42,7 @@ export const MOCK_UNMAPPED_RESPONSE_REPO = [
         test: 'test'
     },
     {
-        name: "repo2",
+        name: 'repo2',
         archived: false,
         created_at: '2018-12-10T11:48:11Z',
         description: 'Best repo 2',
@@ -80,7 +80,7 @@ export const MOCK_FULL_RESPONSE_MEMBERS = [ ...MOCK_MEMBERS ];
 
 export const MOCK_MEMBER_FETCH_RESPONSE = {
     httpStatusCode: 200,
-    resource: MOCK_MEMBERS.map(({ repos_url, ...rest }) => rest)
+    resource: MOCK_MEMBERS.map(({ repos_url: _repos_url, ...rest }) => rest)
 };
 
 export const MOCK_TEAMS = [
@@ -104,7 +104,7 @@ export const MOCK_TEAMS = [
 
 export const MOCK_TEAM_FETCH_RESPONSE = {
     httpStatusCode: 200,
-    resource: MOCK_TEAMS.map(({ members_url, repositories_url, ...rest }) => rest)
+    resource: MOCK_TEAMS.map(({ members_url: _members_url, repositories_url: _repositories_url, ...rest }) => rest)
 };
 
 export const MOCK_MEMBERS_PER_TEAM = [
@@ -150,22 +150,22 @@ export const MOCK_COLLABORATORS_PER_REPO = [
 
 export const MOCK_COLLABORATORS_PER_REPO_RESPONSE = {
     httpStatusCode: 200,
-    resource: MOCK_COLLABORATORS_PER_REPO.map(({ other, ...rest }) => rest)
+    resource: MOCK_COLLABORATORS_PER_REPO.map(({ other: _other, ...rest }) => rest)
 };
 
 export const MOCK_ISSUE_BODY = {
-    title: "Add member to the team",
-    body: "Add member Bob to the team Alice.",
-    assignees: ["IDC TEAM"],
-    labels: ["GIT"]
+    title: 'Add member to the team',
+    body: 'Add member Bob to the team Alice.',
+    assignees: ['IDC TEAM'],
+    labels: ['GIT']
 };
 
 export const MOCK_ISSUE_RESPONSE = {
     id: 1,
     number: 1347,
-    state: "open",
-    title: "Add member to the team",
-    body: "Add member Bob to the team Alice."
+    state: 'open',
+    title: 'Add member to the team',
+    body: 'Add member Bob to the team Alice.'
 };
 
 export const MOCK_ERROR = {
@@ -177,9 +177,23 @@ export const MOCK_ERROR_RESPONSE = {
     errors: [MOCK_ERROR]
 };
 
-export const MOCK_403_ERROR_MSG = { "message": "Must have admin rights to Repository." };
+export const MOCK_403_ERROR_MSG = { 'message': 'Must have admin rights to Repository.' };
 
 export const MOCK_403_ERROR_RESPONSE = {
     httpStatusCode: 403,
     errors: [MOCK_403_ERROR_MSG]
+};
+
+export const MOCK_GET = { data: 'test data' };
+
+export const MOCK_GET_RESPONSE = {
+    httpStatusCode: 200,
+    resource: MOCK_GET
+};
+
+export const MOCK_POST = { success: true };
+
+export const MOCK_POST_RESPONSE = {
+    httpStatusCode: 200,
+    resource: MOCK_POST
 };
