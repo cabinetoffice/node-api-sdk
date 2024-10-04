@@ -47,3 +47,12 @@ export interface GitHubIssueRequest {
     assignees: string[],
     labels: string[]
 }
+
+export interface GitHubPullRequest {
+    prTitle: string,
+    prBody: string,
+    filePath: string,
+    prContent: string,
+    branchName: string,
+    baseBranch: string
+}
