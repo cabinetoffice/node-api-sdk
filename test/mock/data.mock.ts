@@ -197,3 +197,40 @@ export const MOCK_POST_RESPONSE = {
     httpStatusCode: 200,
     resource: MOCK_POST
 };
+
+export const MOCK_SHA_RESPONSE = {
+    object: { sha: 'ABC12345678' }
+};
+
+export const MOCK_POST_BRANCH = { ref: 'refs/heads/test-branch', sha: 'ABC12345678' };
+
+export const MOCK_POST_BLOB = {
+    content: Buffer.from('test content').toString('base64'),
+    encoding: 'base64'
+};
+
+export const MOCK_POST_TREE = {
+    base_tree: 'ABC12345678',
+    tree: [{ path: 'terraform/account-1.tf', mode: '100644', type: 'blob', sha: 'mockBlobSha' }]
+};
+
+export const MOCK_POST_COMMIT = {
+    message: 'commit message',
+    tree: 'mockTreeSha',
+    parents: ['ABC12345678']
+};
+
+export const MOCK_POST_PR = {
+    title: 'PR Title',
+    body: 'PR Body',
+    head: 'new-feature',
+    base: 'main'
+};
+export const MOCK_PR_RESPONSE = {
+    branchName: 'new-feature',
+    prContent: 'some content',
+    filePath: 'file.txt',
+    prTitle: 'PR Title',
+    prBody: 'PR Body',
+    baseBranch: 'main'
+};
