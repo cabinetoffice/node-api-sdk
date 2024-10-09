@@ -17,6 +17,7 @@ import {
     collaboratorsPerRepoMapping
 } from './mapping';
 
+import { extractBaseShaHelper, extractShaHelper, getShaParams, createBranchParams, createBlobParams, createTreeParams, createCommitParams, updateBranchReferenceParams, createPullRequestParams } from './utils';
 import { ApiResponse, ApiErrorResponse } from '../response';
 import { HttpRequest } from '../../http-request';
 
@@ -79,113 +80,27 @@ export class Github {
         return this.responseHandler<any>(response);
     }
 
-    // create pr functionality using generic get and post functions
-
-    public async getSha(repoUrl: string) {
-        const url = `${repoUrl}/git/refs/heads/main`;
-        const response = await this.getData(url);
-
-        if ('resource' in response && response.resource) {
-            return response.resource.object.sha;
-        } else {
-            return response;
-        }
-    }
-
-    public async createBranch(repoUrl: string, branchName: string, baseSha: string) {
-        const url = `${repoUrl}/git/refs`;
-        const body = {
-            ref: `refs/heads/${branchName}`,
-            sha: baseSha
-        };
-        const response = await this.postData(url, body);
-        return response;
-    }
-
-    public async createBlob(repoUrl: string, content: string) {
-        const blobUrl = `${repoUrl}/git/blobs`;
-        const body = {
-            content: Buffer.from(content).toString('base64'),
-            encoding: 'base64',
-        };
-        const response = await this.postData(blobUrl, body);
-
-        if ('resource' in response && response.resource) {
-            return response.resource.sha;
-        } else {
-            return response;
-        }
-    }
-
-    public async createTree(repoUrl: string, baseTreeSha: string, path: string, blobSha: string) {
-        const treeUrl = `${repoUrl}/git/trees`;
-        const body = {
-            base_tree: baseTreeSha,
-            tree: [
-                {
-                    path: path,
-                    mode: '100644',
-                    type: 'blob',
-                    sha: blobSha,
-                }
-            ]
-        };
-        const response = await this.postData(treeUrl, body);
-
-        if ('resource' in response && response.resource) {
-            return response.resource.sha;
-        } else {
-            return response;
-        }
-    }
-
-    public async createCommit(repoUrl: string, message: string, treeSha: string, parentSha: string) {
-        const commitUrl = `${repoUrl}/git/commits`;
-        const body = {
-            message: message,
-            tree: treeSha,
-            parents: [parentSha]
-        };
-        const response = await this.postData(commitUrl, body);
-
-        if ('resource' in response && response.resource) {
-            return response.resource.sha;
-        } else {
-            return response;
-        }
-    }
-
-    public async updateBranchReferance(repoUrl: string, branch: string, commitSha: string) {
-        const refUrl = `${repoUrl}/git/refs/heads/${branch}`;
-        const body = {
-            sha: commitSha,
-        };
-        const response = await this.postData(refUrl, body);
-        return response;
-    }
-
-    public async createPullRequest(repoUrl: string, title: string, body: string, head: string, base: string): Promise<ApiResponse<any> | ApiErrorResponse> {
-        const prUrl = `${repoUrl}/pulls`;
-        const prBody = {
-            title: title,
-            body: body,
-            head: head,
-            base: base
-        };
-        const response = await this.postData(prUrl, prBody);
-        return response;
-    }
-
     public async postPullRequest (repoUrl: string, body: GitHubPullRequest): Promise<ApiResponse<any> | ApiErrorResponse> {
-        const baseSha = await this.getSha(repoUrl);
-        await this.createBranch(repoUrl, body.branchName, baseSha);
-        const blobSha = await this.createBlob(repoUrl, body.prContent);
-        const treeSha = await this.createTree(repoUrl, baseSha, body.filePath, blobSha);
-        const commitSha = await this.createCommit(repoUrl, body.prTitle, treeSha, baseSha);
+        const shaResponse = await this.getData(getShaParams(repoUrl));
+        const baseSha = extractBaseShaHelper(shaResponse);
 
-        await this.updateBranchReferance(repoUrl, body.branchName, commitSha);
-        const response = this.createPullRequest(repoUrl, body.prTitle, body.prBody, body.branchName, body.baseBranch);
-        return response;
+        const { branchUrl, branchBody } = createBranchParams(repoUrl, body.branchName, baseSha);
+        await this.postData(branchUrl, branchBody);
+
+        const { blobUrl, blobBody } = createBlobParams(repoUrl, body.prContent);
+        const blobSha = extractShaHelper(await this.postData(blobUrl, blobBody));
+
+        const { treeUrl, treeBody } = createTreeParams(repoUrl, baseSha, body.filePath, blobSha);
+        const treeSha = extractShaHelper(await this.postData(treeUrl, treeBody));
+
+        const { commitUrl, commitBody } = createCommitParams(repoUrl, body.prTitle, treeSha, baseSha);
+        const commitSha = extractShaHelper(await this.postData(commitUrl, commitBody));
+
+        const { refUrl, refBody } = updateBranchReferenceParams(repoUrl, body.branchName, commitSha);
+        await this.postData(refUrl, refBody);
+
+        const { prUrl, prPostbody } = createPullRequestParams(repoUrl, body.prTitle, body.prBody, body.branchName, 'main');
+        return this.postData(prUrl, prPostbody);
     }
 
     private responseHandler<T>(
