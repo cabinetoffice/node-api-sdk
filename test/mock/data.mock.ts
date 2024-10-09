@@ -202,6 +202,11 @@ export const MOCK_SHA_RESPONSE = {
     object: { sha: 'ABC12345678' }
 };
 
+export const MOCK_INVALID_SHA_RESPONSE = {
+    httpStatusCode: 404,
+    object: ['Resource not found']
+};
+
 export const MOCK_POST_BRANCH = { ref: 'refs/heads/test-branch', sha: 'ABC12345678' };
 
 export const MOCK_POST_BLOB = {
@@ -211,21 +216,22 @@ export const MOCK_POST_BLOB = {
 
 export const MOCK_POST_TREE = {
     base_tree: 'ABC12345678',
-    tree: [{ path: 'terraform/account-1.tf', mode: '100644', type: 'blob', sha: 'mockBlobSha' }]
+    tree: [{ path: 'terraform/account-1.tf', mode: '100644', type: 'blob', sha: 'ABC12345678' }]
 };
 
 export const MOCK_POST_COMMIT = {
     message: 'commit message',
-    tree: 'mockTreeSha',
+    tree: 'ABC12345678',
     parents: ['ABC12345678']
 };
 
 export const MOCK_POST_PR = {
     title: 'PR Title',
     body: 'PR Body',
-    head: 'new-feature',
+    head: 'test-branch',
     base: 'main'
 };
+
 export const MOCK_PR_RESPONSE = {
     branchName: 'new-feature',
     prContent: 'some content',
