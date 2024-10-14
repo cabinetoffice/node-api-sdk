@@ -1,23 +1,23 @@
 import { ApiResponse, ApiErrorResponse } from '../response';
 
+const defaultBranch = 'main';
+
 export const extractBaseShaHelper = (response: ApiResponse<any> | ApiErrorResponse) => {
-    if ('resource' in response && response.resource && 'object' in response.resource && 'sha' in response.resource.object) {
+    if ('resource' in response && 'object' in response.resource){
         return response.resource.object.sha;
-    } else {
-        return response;
     }
+    throw new Error(`Error: ${JSON.stringify(response)}`);
 };
 
 export const extractShaHelper = (response: ApiResponse<any> | ApiErrorResponse) => {
-    if ('resource' in response && response.resource && 'sha' in response.resource) {
+    if ('resource' in response){
         return response.resource.sha;
-    } else {
-        return response;
     }
+    throw new Error(`Error: ${JSON.stringify(response)}`);
 };
 
-export const getShaParams = (repoUrl: string) => {
-    const shaUrl = `${repoUrl}/git/refs/heads/main`;
+export const getShaParams = (repoUrl: string, baseBranch: string = defaultBranch) => {
+    const shaUrl = `${repoUrl}/git/refs/heads/${baseBranch}`;
     return shaUrl;
 };
 
@@ -73,7 +73,7 @@ export const updateBranchReferenceParams = (repoUrl: string, branch: string, com
     return { refUrl, refBody };
 };
 
-export const createPullRequestParams = (repoUrl: string, prTitle: string, prBody: string, branchName: string, baseBranch: string) => {
+export const createPullRequestParams = (repoUrl: string, prTitle: string, prBody: string, branchName: string, baseBranch: string = defaultBranch) => {
     const prUrl = `${repoUrl}/pulls`;
     const prPostbody = {
         title: prTitle,

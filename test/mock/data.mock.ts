@@ -207,6 +207,8 @@ export const MOCK_INVALID_SHA_RESPONSE = {
     object: ['Resource not found']
 };
 
+export const MOCK_API_ERROR = new Error(`Error: ${JSON.stringify(MOCK_INVALID_SHA_RESPONSE)}`);
+
 export const MOCK_POST_BRANCH = { ref: 'refs/heads/test-branch', sha: 'ABC12345678' };
 
 export const MOCK_POST_BLOB = {

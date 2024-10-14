@@ -12,7 +12,7 @@ import {
     createPullRequestParams
 } from '../../../../src/api-sdk/github/utils';
 import { MOCK_REPO_URL, MOCK_BASE_SHA, MOCK_BLOB_SHA, MOCK_TREE_SHA, MOCK_COMMIT_SHA, MOCK_BRANCH_NAME, MOCK_PATH, MOCK_COMMIT_MESSAGE, MOCK_PR_TITLE, MOCK_PR_BODY } from '../../../mock/text.mock';
-import { MOCK_POST_BLOB, MOCK_INVALID_SHA_RESPONSE, MOCK_POST_BRANCH, MOCK_POST_TREE, MOCK_POST_COMMIT, MOCK_POST_PR } from '../../../mock/data.mock';
+import { MOCK_POST_BLOB, MOCK_INVALID_SHA_RESPONSE, MOCK_POST_BRANCH, MOCK_POST_TREE, MOCK_POST_COMMIT, MOCK_POST_PR, MOCK_API_ERROR } from '../../../mock/data.mock';
 
 describe('Github utils test suites', () => {
 
@@ -30,8 +30,9 @@ describe('Github utils test suites', () => {
     });
 
     test('extractBaseShaHelper should return response if resource does not exist', () => {
-        const result = extractBaseShaHelper(MOCK_INVALID_SHA_RESPONSE);
-        expect(result).toEqual(MOCK_INVALID_SHA_RESPONSE);
+        jest.spyOn(global, 'Error').mockImplementationOnce(() => MOCK_API_ERROR);
+
+        expect(() => extractBaseShaHelper(MOCK_INVALID_SHA_RESPONSE)).toThrowError(MOCK_API_ERROR);
     });
 
     test('extractShaHelper should return sha if it exists', () => {
@@ -44,8 +45,9 @@ describe('Github utils test suites', () => {
     });
 
     test('extractShaHelper should return response if sha does not exist', () => {
-        const result = extractShaHelper(MOCK_INVALID_SHA_RESPONSE);
-        expect(result).toEqual(MOCK_INVALID_SHA_RESPONSE);
+        jest.spyOn(global, 'Error').mockImplementationOnce(() => MOCK_API_ERROR);
+
+        expect(() => extractShaHelper(MOCK_INVALID_SHA_RESPONSE)).toThrowError(MOCK_API_ERROR);
     });
 
     test('getShaParams should return the correct sha URL', () => {
@@ -87,7 +89,7 @@ describe('Github utils test suites', () => {
     });
 
     test('createPullRequestParams should return the correct PR URL and body', () => {
-        const { prUrl, prPostbody } = createPullRequestParams(MOCK_REPO_URL, MOCK_PR_TITLE, MOCK_PR_BODY, MOCK_BRANCH_NAME, 'main');
+        const { prUrl, prPostbody } = createPullRequestParams(MOCK_REPO_URL, MOCK_PR_TITLE, MOCK_PR_BODY, MOCK_BRANCH_NAME);
         expect(prUrl).toBe(`${MOCK_REPO_URL}/pulls`);
         expect(prPostbody).toEqual(MOCK_POST_PR);
     });

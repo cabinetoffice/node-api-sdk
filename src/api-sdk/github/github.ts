@@ -81,7 +81,7 @@ export class Github {
     }
 
     public async postPullRequest (repoUrl: string, body: GitHubPullRequest): Promise<ApiResponse<any> | ApiErrorResponse> {
-        const shaResponse = await this.getData(getShaParams(repoUrl));
+        const shaResponse = await this.getData(getShaParams(repoUrl, body.baseBranch));
         const baseSha = extractBaseShaHelper(shaResponse);
 
         const { branchUrl, branchBody } = createBranchParams(repoUrl, body.branchName, baseSha);
@@ -99,7 +99,7 @@ export class Github {
         const { refUrl, refBody } = updateBranchReferenceParams(repoUrl, body.branchName, commitSha);
         await this.postData(refUrl, refBody);
 
-        const { prUrl, prPostbody } = createPullRequestParams(repoUrl, body.prTitle, body.prBody, body.branchName, 'main');
+        const { prUrl, prPostbody } = createPullRequestParams(repoUrl, body.prTitle, body.prBody, body.branchName, body.baseBranch);
         return this.postData(prUrl, prPostbody);
     }
 
