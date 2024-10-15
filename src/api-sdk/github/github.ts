@@ -5,7 +5,8 @@ import {
     GitHubMembersPerTeam,
     GitHubReposPerTeam,
     GitHubCollaboratorsPerRepo,
-    GitHubIssueRequest
+    GitHubIssueRequest,
+    GitHubPullRequest
 } from './type';
 import {
     reposMapping,
@@ -16,6 +17,7 @@ import {
     collaboratorsPerRepoMapping
 } from './mapping';
 
+import { extractBaseShaHelper, extractShaHelper, getShaParams, createBranchParams, createBlobParams, createTreeParams, createCommitParams, updateBranchReferenceParams, createPullRequestParams } from './utils';
 import { ApiResponse, ApiErrorResponse } from '../response';
 import { HttpRequest } from '../../http-request';
 
@@ -76,6 +78,29 @@ export class Github {
     public async postData(url: string, body: any): Promise<ApiResponse<any> | ApiErrorResponse> {
         const response = await this.request.httpPost(url, JSON.stringify(body));
         return this.responseHandler<any>(response);
+    }
+
+    public async postPullRequest (repoUrl: string, body: GitHubPullRequest): Promise<ApiResponse<any> | ApiErrorResponse> {
+        const shaResponse = await this.getData(getShaParams(repoUrl, body.baseBranch));
+        const baseSha = extractBaseShaHelper(shaResponse);
+
+        const { branchUrl, branchBody } = createBranchParams(repoUrl, body.branchName, baseSha);
+        await this.postData(branchUrl, branchBody);
+
+        const { blobUrl, blobBody } = createBlobParams(repoUrl, body.prContent);
+        const blobSha = extractShaHelper(await this.postData(blobUrl, blobBody));
+
+        const { treeUrl, treeBody } = createTreeParams(repoUrl, baseSha, body.filePath, blobSha);
+        const treeSha = extractShaHelper(await this.postData(treeUrl, treeBody));
+
+        const { commitUrl, commitBody } = createCommitParams(repoUrl, body.prTitle, treeSha, baseSha);
+        const commitSha = extractShaHelper(await this.postData(commitUrl, commitBody));
+
+        const { refUrl, refBody } = updateBranchReferenceParams(repoUrl, body.branchName, commitSha);
+        await this.postData(refUrl, refBody);
+
+        const { prUrl, prPostbody } = createPullRequestParams(repoUrl, body.prTitle, body.prBody, body.branchName, body.baseBranch);
+        return this.postData(prUrl, prPostbody);
     }
 
     private responseHandler<T>(

@@ -1,6 +1,7 @@
 import { jest, beforeEach, afterEach, describe, test, expect } from '@jest/globals';
 import { Github } from '../../../../src/api-sdk/github/github';
 import { HttpRequest } from '../../../../src/http-request/index';
+import { MOCK_REPO_URL, MOCK_BASE_SHA, MOCK_BLOB_SHA, MOCK_TREE_SHA, MOCK_COMMIT_SHA } from '../../../mock/text.mock';
 import {
     MOCK_REPO_FETCH_RESPONSE,
     MOCK_MEMBER_FETCH_RESPONSE,
@@ -27,7 +28,8 @@ import {
     MOCK_GET,
     MOCK_GET_RESPONSE,
     MOCK_POST,
-    MOCK_POST_RESPONSE
+    MOCK_POST_RESPONSE,
+    MOCK_PR_RESPONSE
 } from '../../../mock/data.mock';
 import { HttpResponse } from '../../../../src/http-request/type';
 
@@ -161,6 +163,25 @@ describe('Github sdk module test suites', () => {
 
         expect(httpRequestMock.httpPost).toHaveBeenCalledWith(url, JSON.stringify(body));
         expect(result).toEqual(MOCK_POST_RESPONSE);
+    });
+
+    test('should successfully post a pull request and return the response', async () => {
+        httpRequestMock.httpGet.mockResolvedValue(createMockHttpResponse({ object: { sha: MOCK_BASE_SHA } }));
+        httpRequestMock.httpPost
+            .mockResolvedValueOnce(createMockHttpResponse({}))
+            .mockResolvedValueOnce(createMockHttpResponse({ sha: MOCK_BLOB_SHA }))
+            .mockResolvedValueOnce(createMockHttpResponse({ sha: MOCK_TREE_SHA }))
+            .mockResolvedValueOnce(createMockHttpResponse({ sha: MOCK_COMMIT_SHA }))
+            .mockResolvedValueOnce(createMockHttpResponse({}))
+            .mockResolvedValue(createMockHttpResponse(MOCK_PR_RESPONSE));
+
+        const result = await github.postPullRequest(MOCK_REPO_URL, MOCK_PR_RESPONSE);
+
+        expect(result).toEqual({ httpStatusCode: 200, resource: MOCK_PR_RESPONSE });
+
+        expect(httpRequestMock.httpGet).toHaveBeenCalledTimes(1);
+
+        expect(httpRequestMock.httpPost).toHaveBeenCalledTimes(6);
     });
 
     test('Should return an object with an error property', async () => {
